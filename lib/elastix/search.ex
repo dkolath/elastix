@@ -18,6 +18,7 @@ defmodule Elastix.Search do
   @doc false
   def search(elastic_url, index, types, data, query_params) when is_binary(data) do
     elastic_url <> make_path(index, types, query_params)
+    |> HTTP.post(data)
     |> process_response
   end
 
