@@ -9,9 +9,15 @@ defmodule Elastix.Search do
   end
 
   @doc false
-  def search(elastic_url, index, types, data, query_params) do
+  def search(elastic_url, index, types, data, query_params) when is_map(data) do
     elastic_url <> make_path(index, types, query_params)
     |> HTTP.post(Poison.encode!(data))
+    |> process_response
+  end
+
+  @doc false
+  def search(elastic_url, index, types, data, query_params) when is_binary(data) do
+    elastic_url <> make_path(index, types, query_params)
     |> process_response
   end
 
